@@ -28,17 +28,8 @@ class User < ActiveRecord::Base
     true
   end
 
-  # GK: First, We print user name along with the micropost. To avoid
-  # "N+1 queries" problem, we eagerly load post.user. Second, the
-  # following method call results in two SQL queries. They need to be
-  # wrapped inside a transaction to avoid showing "Nil" in place of
-  # user name. Third, we need to either make transaction execute
-  # lazily, or make the two queries execute eagerly. I don't know how
-  # to do the former, so I did later using `load`.
   def feed
-    self.transaction do
-      Micropost.includes(:user).from_users_followed_by(self).load
-    end
+    Micropost.from_users_followed_by(self).load
   end
 
   def following?(other_user)
