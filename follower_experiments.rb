@@ -57,6 +57,7 @@ end
 for j in 1..10
   i = ((2*j)%11==0)?2*j+1:2*j
   Process.fork do
+    $level = :repeatable_read
     ActiveRecord::Base.transaction do
       me = User.where(email: "buddha#{i}@buddhism.org").take
       me.feed.each do |post|
