@@ -24,7 +24,6 @@ nClients = 4
 nTweetsPerUser = 10
 nFollowed = 20
 
-
 for i in 1..nUsers
   usr = User.new(name:"buddha#{i}", email:"buddha#{i}@buddhism.org", password:'zenisfun')
   usr.save
@@ -36,30 +35,35 @@ end
 
 for i in 1..nUsers
   me = User.where(email: "buddha#{i}@buddhism.org").take
-  followed = (1..nUsers).to_a.sample(nFollowed)
+  followed = [*1..(i-1), *(i+1)..nUsers].sample(nFollowed)
   followed.each do |followed_id|
-    if followed_id!=i then
-      other = User.where(email: "buddha#{followed_id}@buddhism.org").take
-      me.follow! other
-    end
+    other = User.where(email: "buddha#{followed_id}@buddhism.org").take
+    me.follow! other
   end
 end
 
 puts "Insertion Done"
 
-for i in 1..4
+nDeletions = 4
+nReads = 10
+deletions = (1..nUsers).to_a.sample(nDeletions)
+reads = ((1..nUsers).to_a - deletions).sample(nReads)
+
+puts "Deletions: #{deletions}"
+puts "Reads: #{reads}"
+
+deletions.each do |i|
   Process.fork do
-    usr = User.where(email: "buddha#{i*11}@buddhism.org").take
+    usr = User.where(email: "buddha#{i}@buddhism.org").take
     usr.destroy
   end
 end
 
-for j in 1..10
-  i = ((2*j)%11==0)?2*j+1:2*j
+reads.each do |j|
   Process.fork do
-    $level = :repeatable_read
+    $level = :read_committed
     ActiveRecord::Base.transaction do
-      me = User.where(email: "buddha#{i}@buddhism.org").take
+      me = User.where(email: "buddha#{j}@buddhism.org").take
       me.feed.each do |post|
         if post.user.nil? then
           puts "post has no author!"
