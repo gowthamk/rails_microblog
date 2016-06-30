@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Diagram>
+  <ID>RailsDependency</ID>
+  <OriginalElement>#sample_app_rails_4</OriginalElement>
+  <nodes>
+    <node x="310.0" y="0.0">User</node>
+    <node x="751.0" y="88.0">Micropost</node>
+    <node x="0.0" y="15.800000000000026">Relationship</node>
+  </nodes>
+  <notes />
+  <edges>
+    <edge source="Relationship" target="User">
+      <point x="100.0" y="39.66666666666666" />
+      <point x="280.0" y="125.5" />
+      <point x="-180.5" y="-0.0" />
+    </edge>
+    <edge source="User" target="User">
+      <point x="-180.5" y="100.4" />
+      <point x="290.0" y="225.9" />
+      <point x="290.0" y="271.0" />
+      <point x="400.25" y="271.0" />
+      <point x="-90.25" y="125.5" />
+    </edge>
+    <edge source="User" target="Relationship">
+      <point x="-180.5" y="-50.19999999999999" />
+      <point x="100.0" y="-0.0" />
+    </edge>
+    <edge source="User" target="Micropost">
+      <point x="180.5" y="-0.0" />
+      <point x="-66.5" y="-0.0" />
+    </edge>
+  </edges>
+  <settings layout="Hierarchic Group" zoom="1.0" x="442.0" y="140.5" />
+  <SelectedNodes>
+    <node>Relationship</node>
+  </SelectedNodes>
+  <Categories>
+    <Category>Association fields</Category>
+    <Category>Migration fields</Category>
+  </Categories>
+</Diagram>
+
